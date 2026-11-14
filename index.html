@@ -3,38 +3,84 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Playwright & QA Automation Consulting | QAFlex Studio</title>
-  <meta name="description" content="Practical QA automation services for software teams: Playwright framework setup, flaky-test debugging, regression test reviews, and ongoing automation maintenance.">
+  <title>QAFlex Studio | QA Automation Tools, Playwright Resources & Consulting</title>
+  <meta name="description" content="Explore practical QA automation digital products, Playwright toolkits, interview resources, testing templates, CI/CD packs, and consulting from QAFlex Studio.">
   <link rel="canonical" href="https://qaflex121-cmd.github.io/qaflex-studio-site/">
   <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0d1726">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Playwright & QA Automation Consulting | QAFlex Studio">
-  <meta property="og:description" content="Improve test reliability with practical Playwright framework reviews, flaky-test investigations, and QA automation support.">
+  <meta property="og:title" content="QAFlex Studio | QA Automation Tools & Consulting">
+  <meta property="og:description" content="Practical QA automation resources, Playwright toolkits, templates, and consulting support for software teams.">
   <meta property="og:url" content="https://qaflex121-cmd.github.io/qaflex-studio-site/">
   <meta name="twitter:card" content="summary">
-  <meta name="google-site-verification" content="38yo9rw9KpyQKDmBP3CEUgiXTXY-3FgbEpJCk3konf8" />
+  <meta name="google-site-verification" content="38yo9rw9KpyQKDmBP3CEUgiXTXY-3FgbEpJCk3konf8">
   <style>
-    :root { --ink:#14212b; --muted:#536471; --accent:#147d83; --bg:#f5f8fa; --card:#fff; --line:#dce5e9; }
+    :root {
+      --ink:#142033; --muted:#59677a; --accent:#16a6a1; --accent-dark:#087d7a;
+      --bg:#f4f7fb; --card:#fff; --line:#e0e7ef; --navy:#0d1726; --soft:#e9fbf8;
+      --shadow:0 12px 35px rgba(18,36,60,.07);
+    }
     * { box-sizing:border-box; }
-    body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
-    header, main, footer { max-width:1000px; margin:auto; padding:24px; }
-    nav { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
-    .brand { font-weight:800; letter-spacing:.04em; }
-    a { color:var(--accent); }
-    .hero { padding:58px 0 42px; }
-    .eyebrow { color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.1em; font-size:.8rem; }
-    h1 { font-size:clamp(2.2rem,6vw,4rem); line-height:1.1; max-width:780px; margin:.4em 0; }
-    h2 { line-height:1.25; }
-    .lead { color:var(--muted); font-size:1.15rem; max-width:740px; }
-    .button { display:inline-block; background:var(--accent); color:white; padding:12px 18px; border-radius:9px; text-decoration:none; font-weight:700; margin:8px 8px 0 0; }
-    .button.secondary { background:white; color:var(--accent); border:1px solid var(--line); }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:22px 0 36px; }
-    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:22px; }
-    .price { font-weight:800; color:var(--accent); }
-    .section { padding:20px 0; }
-    footer { color:var(--muted); border-top:1px solid var(--line); font-size:.9rem; }
-    .small { font-size:.92rem; color:var(--muted); }
-    @media (max-width:600px) { header, main, footer { padding:18px; } .hero { padding:38px 0 28px; } nav { justify-content:flex-start; } }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body { margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--bg); line-height:1.65; }
+    a { color:var(--accent-dark); }
+    .wrap { width:min(1120px,100% - 40px); margin:0 auto; }
+    .site-header { background:var(--navy); color:white; }
+    nav { min-height:78px; display:flex; align-items:center; justify-content:space-between; gap:22px; flex-wrap:wrap; }
+    .brand { color:white; text-decoration:none; font-weight:900; letter-spacing:.07em; font-size:1.02rem; }
+    .brand span { color:#53e0d0; }
+    .nav-links { display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
+    .nav-links a { color:#dce7f5; text-decoration:none; font-size:.94rem; }
+    .nav-links a:hover { color:#53e0d0; }
+    .hero { padding:76px 0 84px; color:white; background:radial-gradient(ellipse at 85% 15%,rgba(22,166,161,.22),transparent 34%),var(--navy); }
+    .eyebrow { color:#68e0d3; font-weight:800; text-transform:uppercase; letter-spacing:.13em; font-size:.78rem; }
+    h1 { font-size:clamp(2.45rem,6vw,4.65rem); line-height:1.06; letter-spacing:-.045em; max-width:850px; margin:15px 0 20px; }
+    h2 { font-size:clamp(1.8rem,4vw,2.45rem); line-height:1.18; letter-spacing:-.03em; margin:0 0 12px; }
+    h3 { line-height:1.3; margin:0 0 8px; }
+    p { margin:0 0 14px; }
+    .lead { color:#d0dbea; font-size:clamp(1.05rem,2vw,1.2rem); max-width:760px; }
+    .button { display:inline-flex; justify-content:center; align-items:center; gap:8px; background:var(--accent); color:#062323; padding:12px 18px; border-radius:10px; text-decoration:none; font-weight:800; border:1px solid transparent; margin:10px 8px 0 0; transition:transform .15s ease,background .15s ease; }
+    .button:hover { background:#48d6c8; transform:translateY(-1px); }
+    .button.secondary { background:transparent; color:white; border-color:#536579; }
+    .button.secondary:hover { background:#17263a; }
+    .section { padding:64px 0; }
+    .section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; flex-wrap:wrap; margin-bottom:24px; }
+    .section-head p { color:var(--muted); max-width:650px; margin:0; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:24px; box-shadow:var(--shadow); display:flex; flex-direction:column; min-width:0; }
+    .product-icon { width:46px; height:46px; display:grid; place-items:center; border-radius:13px; background:var(--soft); color:var(--accent-dark); font-size:1.35rem; margin-bottom:16px; }
+    .tag { display:inline-flex; align-self:flex-start; font-size:.76rem; font-weight:800; background:#edf2f8; color:#46566b; border-radius:999px; padding:4px 9px; margin-bottom:12px; }
+    .card p { color:var(--muted); font-size:.96rem; }
+    .product-bottom { margin-top:auto; padding-top:12px; }
+    .price-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .price { font-size:1.35rem; font-weight:900; color:var(--ink); }
+    .buy-button { display:flex; justify-content:center; width:100%; text-align:center; background:var(--navy); color:white; padding:11px 14px; border-radius:10px; font-weight:800; text-decoration:none; }
+    .buy-button:hover { background:var(--accent-dark); }
+    .note { color:var(--muted); font-size:.88rem; margin-top:18px; }
+    .band { background:#eaf3f7; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .service-card { box-shadow:none; }
+    .service-card .price { color:var(--accent-dark); font-size:1.12rem; }
+    .steps { counter-reset:step; }
+    .step { position:relative; padding-top:58px; }
+    .step:before { counter-increment:step; content:counter(step); position:absolute; top:20px; left:24px; width:28px; height:28px; border-radius:50%; display:grid; place-items:center; background:var(--soft); color:var(--accent-dark); font-weight:900; }
+    .about-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:start; }
+    .about-panel { background:var(--navy); color:white; border-radius:18px; padding:28px; }
+    .about-panel p { color:#d0dbea; }
+    .contact-box { background:linear-gradient(120deg,#0d1726,#17334a); color:white; border-radius:22px; padding:clamp(28px,5vw,48px); display:flex; justify-content:space-between; gap:28px; align-items:center; flex-wrap:wrap; }
+    .contact-box p { color:#d0dbea; max-width:650px; }
+    .contact-box a:not(.button) { color:#6fe3d7; }
+    footer { color:var(--muted); border-top:1px solid var(--line); padding:28px 0; font-size:.9rem; }
+    .footer-row { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    @media(max-width:850px) { .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .about-grid { grid-template-columns:1fr; } }
+    @media(max-width:600px) {
+      .wrap { width:min(100% - 30px,1120px); }
+      nav { padding:18px 0; align-items:flex-start; }
+      .nav-links { gap:12px 16px; }
+      .hero { padding:55px 0 62px; }
+      .section { padding:46px 0; }
+      .grid { grid-template-columns:1fr; }
+      .card { padding:21px; }
+    }
   </style>
   <script type="application/ld+json">
   {
@@ -43,78 +89,181 @@
     "name": "QAFlex Studio",
     "url": "https://qaflex121-cmd.github.io/qaflex-studio-site/",
     "email": "qaflex121@gmail.com",
-    "description": "QA automation consulting focused on Playwright framework setup, flaky-test investigation, regression testing, and automation maintenance.",
+    "description": "QA automation digital products and consulting focused on Playwright, API testing, test strategy, CI/CD, and automation maintenance.",
     "areaServed": "Worldwide",
-    "serviceType": [
-      "QA automation consulting",
-      "Playwright test automation",
-      "Flaky-test investigation",
-      "Regression test automation maintenance"
-    ]
+    "serviceType": ["QA automation consulting", "Playwright test automation", "API testing", "Flaky-test investigation", "Regression test automation maintenance"]
   }
   </script>
 </head>
 <body>
-  <header>
-    <nav aria-label="Main navigation">
-      <div class="brand">QAFLEX STUDIO</div>
-      <a href="#services">Services</a>
-      <a href="#process">How it works</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <section class="hero">
-      <div class="eyebrow">Playwright & QA Automation Consulting</div>
-      <h1>Make your automated tests more reliable.</h1>
-      <p class="lead">Practical QA automation support for software teams that need maintainable Playwright end-to-end tests, clearer CI failure diagnostics, and more dependable regression testing.</p>
-      <a class="button" href="#contact">Request a QA health check</a>
-      <a class="button secondary" href="#services">Explore services</a>
-    </section>
+  <header class="site-header">
+    <div class="wrap">
+      <nav aria-label="Main navigation">
+        <a class="brand" href="#top">QA<span>FLEX</span> STUDIO</a>
+        <div class="nav-links">
+          <a href="#products">Digital products</a>
+          <a href="#services">Services</a>
+          <a href="#process">How it works</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </div>
+    <div class="hero" id="top">
+      <div class="wrap">
+        <div class="eyebrow">QA automation resources & consulting</div>
+        <h1>Build better tests. Ship with confidence.</h1>
+        <p class="lead">Practical Playwright toolkits, testing templates, interview resources, CI/CD examples, and focused QA automation support for engineers and software teams.</p>
+        <a class="button" href="#products">Explore digital products ↓</a>
+        <a class="button secondary" href="#contact">Discuss a project</a>
+      </div>
+    </div>
   </header>
+
   <main>
-    <section class="section" id="problems">
-      <h2>QA automation problems we help solve</h2>
-      <div class="grid">
-        <article class="card"><h3>Flaky Playwright tests</h3><p>Investigate repeatable failures, timing issues, locator instability, and other causes of unreliable end-to-end tests.</p></article>
-        <article class="card"><h3>Hard-to-maintain test suites</h3><p>Review page-object design, test structure, reusable helpers, test data, configuration, and maintainability.</p></article>
-        <article class="card"><h3>Unclear CI failures</h3><p>Improve failure diagnostics and reporting so your team can triage regression failures more efficiently.</p></article>
+    <section class="section" id="products">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Digital shop</div>
+            <h2>Tools for your QA workflow</h2>
+          </div>
+          <p>Downloadable resources designed to help QA engineers improve automation, prepare for interviews, standardize testing, and build more reliable delivery pipelines.</p>
+        </div>
+        <div class="grid">
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">⚙</div><span class="tag">Playwright · JavaScript</span>
+            <h3>QA Automation Accelerator</h3>
+            <p>A Playwright JavaScript starter kit to help organize a maintainable automation framework and get started faster.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$9</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/ieljvh" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🚀</div><span class="tag">Advanced toolkit</span>
+            <h3>QA Automation Accelerator Pro</h3>
+            <p>Playwright JavaScript framework and testing toolkit for engineers looking for a more complete starting point.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$19</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/ttywa" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">📦</div><span class="tag">Bundle</span>
+            <h3>QA Automation Accelerator Complete Bundle</h3>
+            <p>Bundle option for buyers who want the QA Automation Accelerator resources together.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$24</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/etvmeb" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🔌</div><span class="tag">API testing</span>
+            <h3>Playwright API Testing Toolkit</h3>
+            <p>Practical API automation examples and resources to help structure and extend API tests with Playwright.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$15</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/owjfbk" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🎯</div><span class="tag">Interview prep</span>
+            <h3>QA Automation Interview Master Kit</h3>
+            <p>Interview preparation material for QA automation professionals who want to strengthen their technical answers.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$12</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/ugmpzn" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🧾</div><span class="tag">Templates</span>
+            <h3>QA Test Case & Bug Report Templates</h3>
+            <p>Reusable templates to make test cases, defect reports, and QA documentation more consistent.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$7</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/wmszwk" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🔄</div><span class="tag">CI/CD</span>
+            <h3>Playwright CI/CD Pipeline Pack</h3>
+            <p>Sample pipeline configuration and supporting resources for running Playwright tests in CI workflows.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$19</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/fvplto" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🧭</div><span class="tag">Leadership</span>
+            <h3>QA Lead & Test Strategy Toolkit</h3>
+            <p>Planning and risk-assessment resources for QA leads and engineers responsible for test strategy.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$24</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/ijerme" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+          <article class="card">
+            <div class="product-icon" aria-hidden="true">🤖</div><span class="tag">AI prompts</span>
+            <h3>AI Prompts for QA Engineers</h3>
+            <p>Prompt ideas to support QA planning, test design, bug analysis, and everyday testing workflows.</p>
+            <div class="product-bottom"><div class="price-row"><span class="price">$7</span></div><a class="buy-button" href="https://rahulsrivastava.gumroad.com/l/khzhzu" target="_blank" rel="noopener noreferrer">View product & buy ↗</a></div>
+          </article>
+        </div>
+        <p class="note">Purchases are completed securely on Gumroad. Prices shown are listed prices and may change; the Gumroad checkout displays the current price and applicable taxes.</p>
+        <p class="note">Product files and descriptions may be updated over time. Please review the product page before purchasing to confirm the included deliverables.</p>
       </div>
     </section>
+
+    <section class="section band" id="problems">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="eyebrow">Consulting</div><h2>QA automation problems we help solve</h2></div>
+          <p>Focused support for teams that need more maintainable automated tests and clearer feedback from their delivery pipeline.</p>
+        </div>
+        <div class="grid">
+          <article class="card service-card"><div class="product-icon" aria-hidden="true">🧪</div><h3>Flaky Playwright tests</h3><p>Investigate timing issues, locator instability, and repeatable end-to-end test failures.</p></article>
+          <article class="card service-card"><div class="product-icon" aria-hidden="true">🧱</div><h3>Hard-to-maintain test suites</h3><p>Review page-object design, test structure, reusable helpers, test data, and configuration.</p></article>
+          <article class="card service-card"><div class="product-icon" aria-hidden="true">📊</div><h3>Unclear CI failures</h3><p>Improve failure diagnostics and reporting so regression failures are easier to triage.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="services">
-      <h2>QA automation services</h2>
-      <p>Focused, clearly scoped support for teams building or maintaining browser-based regression automation.</p>
-      <div class="grid">
-        <article class="card"><h3>QA Automation Health Check</h3><p>Review an agreed repository or representative test sample and receive a prioritized report covering reliability, structure, diagnostics, and improvement opportunities.</p><p class="price">Starting at ₹4,999</p></article>
-        <article class="card"><h3>Playwright Starter Framework</h3><p>A small, documented JavaScript Playwright framework with agreed configuration, reusable structure, and sample end-to-end tests.</p><p class="price">Starting at ₹14,999</p></article>
-        <article class="card"><h3>Flaky-Test Investigation</h3><p>A time-boxed investigation of an agreed set of repeatable automation failures, with findings and recommended fixes.</p><p class="price">Starting at ₹7,500</p></article>
-        <article class="card"><h3>QA Automation Maintenance</h3><p>Ongoing test automation support under a defined monthly hour limit, agreed priorities, and written scope.</p><p class="price">Starting at ₹15,000/month</p></article>
-      </div>
-      <p class="small">Prices are indicative, subject to scope confirmation. Applicable taxes, if any, are additional. No engagement begins until scope, access, and deliverables are agreed in writing.</p>
-    </section>
-    <section class="section" id="process">
-      <h2>How an engagement works</h2>
-      <div class="grid">
-        <article class="card"><h3>1. Discover</h3><p>Share a high-level description of your application, test stack, and current QA automation challenge.</p></article>
-        <article class="card"><h3>2. Agree scope</h3><p>Receive a written scope, timeline, deliverables, assumptions, and fee before work starts.</p></article>
-        <article class="card"><h3>3. Review and deliver</h3><p>Work proceeds using only authorized access and agreed materials, followed by findings and a handover.</p></article>
+      <div class="wrap">
+        <div class="section-head"><div><div class="eyebrow">Services</div><h2>Practical support, clearly scoped</h2></div><p>Every engagement starts with a written scope, agreed deliverables, and a fee before work begins.</p></div>
+        <div class="grid">
+          <article class="card service-card"><h3>QA Automation Health Check</h3><p>Review an agreed repository or representative test sample and receive a prioritized report covering reliability, structure, diagnostics, and improvement opportunities.</p><div class="product-bottom"><p class="price">Starting at ₹4,999</p></div></article>
+          <article class="card service-card"><h3>Playwright Starter Framework</h3><p>A documented JavaScript Playwright framework with agreed configuration, reusable structure, and sample end-to-end tests.</p><div class="product-bottom"><p class="price">Starting at ₹14,999</p></div></article>
+          <article class="card service-card"><h3>Flaky-Test Investigation</h3><p>A time-boxed investigation of an agreed set of repeatable automation failures, with findings and recommended fixes.</p><div class="product-bottom"><p class="price">Starting at ₹7,500</p></div></article>
+          <article class="card service-card"><h3>QA Automation Maintenance</h3><p>Ongoing test automation support under a defined monthly hour limit, agreed priorities, and written scope.</p><div class="product-bottom"><p class="price">Starting at ₹15,000/month</p></div></article>
+        </div>
+        <p class="note">Prices are indicative and subject to scope confirmation. Applicable taxes, if any, are additional. No engagement begins until scope, access, and deliverables are agreed in writing.</p>
       </div>
     </section>
+
+    <section class="section band" id="process">
+      <div class="wrap">
+        <div class="section-head"><div><div class="eyebrow">Simple process</div><h2>How an engagement works</h2></div></div>
+        <div class="grid steps">
+          <article class="card step"><h3>Discover</h3><p>Share a high-level description of your application, test stack, and current QA automation challenge.</p></article>
+          <article class="card step"><h3>Agree scope</h3><p>Receive a written scope, timeline, deliverables, assumptions, and fee before work starts.</p></article>
+          <article class="card step"><h3>Review and deliver</h3><p>Work proceeds using only authorized access and agreed materials, followed by findings and a handover.</p></article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="about">
-      <h2>About QAFlex Studio</h2>
-      <p>QAFlex Studio provides focused QA engineering and test automation support for software teams seeking more reliable releases and maintainable automated regression suites.</p>
-      <p>Service areas include Playwright with JavaScript, Python-based test automation, page-object design, API testing, CI/CD test execution, and investigation of intermittent test failures. Each engagement is tailored to the client's stack, priorities, and authorized access.</p>
-      <p class="small">Independent consulting service. Engagements are accepted subject to availability, written scope, and applicable professional obligations. No client or employer confidential information is published on this site.</p>
+      <div class="wrap about-grid">
+        <div>
+          <div class="eyebrow">About</div>
+          <h2>Built for practical QA engineering</h2>
+          <p>QAFlex Studio provides focused QA engineering resources and test automation support for software teams seeking more reliable releases and maintainable regression suites.</p>
+          <p>Service areas include Playwright with JavaScript, Python-based test automation, page-object design, API testing, CI/CD test execution, and investigation of intermittent test failures.</p>
+          <p class="note">Independent consulting service. Engagements are accepted subject to availability, written scope, and applicable professional obligations. No client or employer confidential information is published on this site.</p>
+        </div>
+        <aside class="about-panel">
+          <h3>What you'll find here</h3>
+          <p>✓ Downloadable QA resources</p>
+          <p>✓ Playwright and API testing toolkits</p>
+          <p>✓ Test case and bug report templates</p>
+          <p>✓ CI/CD and test strategy resources</p>
+          <p>✓ Scoped consulting for QA teams</p>
+        </aside>
+      </div>
     </section>
+
     <section class="section" id="contact">
-      <h2>Discuss your QA automation challenge</h2>
-      <p>Email: <a href="mailto:qaflex121@gmail.com">qaflex121@gmail.com</a></p>
-      <p>In your message, include the type of application, test tools, a short description of the issue, and your preferred timeline. Do not send passwords, production data, or confidential code in an initial enquiry.</p>
-      <p>Remote engagements considered.</p>
+      <div class="wrap">
+        <div class="contact-box">
+          <div><div class="eyebrow">Get in touch</div><h2>Discuss your QA automation challenge</h2><p>Tell us about your application, test tools, the issue you're facing, and your preferred timeline. Please do not send passwords, production data, or confidential code in an initial enquiry.</p><p>Email: <a href="mailto:qaflex121@gmail.com">qaflex121@gmail.com</a></p><p>Remote engagements considered.</p></div>
+          <a class="button" href="mailto:qaflex121@gmail.com?subject=QAFlex%20Studio%20Enquiry">Email QAFlex Studio ↗</a>
+        </div>
+      </div>
     </section>
   </main>
+
   <footer>
-    <p>© QAFlex Studio · Playwright & QA automation consulting</p>
-    <p>This website does not use a contact form or analytics in this version. If you email us, your message and email address will be used to respond to your enquiry.</p>
+    <div class="wrap footer-row">
+      <span>© <span id="year">2026</span> QAFlex Studio · QA automation tools & consulting</span>
+      <span>Digital product checkout powered by Gumroad.</span>
+    </div>
   </footer>
 </body>
 </html>
