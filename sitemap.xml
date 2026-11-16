@@ -3,4 +3,19 @@
   <url>
     <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/</loc>
   </url>
+  <url>
+    <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/qa-tool.html</loc>
+  </url>
+  <url>
+    <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/api-tool.html</loc>
+  </url>
+  <url>
+    <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/json-tool.html</loc>
+  </url>
+  <url>
+    <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/regex-tool.html</loc>
+  </url>
+  <url>
+    <loc>https://qaflex121-cmd.github.io/qaflex-studio-site/status-codes.html</loc>
+  </url>
 </urlset>
