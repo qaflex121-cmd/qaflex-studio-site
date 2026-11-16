@@ -58,3 +58,12 @@ Then open `http://localhost:8000/qa-tool.html`. A static server is recommended o
 - Runs locally in the browser and does not upload input or call an API.
 - Automated tests cover formatting, indentation, invalid/empty input, minification, and basic JSON structure inspection.
 - Manual checks: load example, format it, validate it, minify it, copy output, and try malformed JSON.
+
+ 
+## Free Regex Tester
+- Page: `regex-tool.html`; logic: `regex-tool.js`.
+- Tests JavaScript regular expressions against sample text, showing match positions and capture groups.
+- Supports browser JavaScript regex flags, limits pattern/sample size, caps displayed matches, and runs matching in a worker with a timeout.
+- Runs locally; no text is uploaded or sent to an API.
+- Automated tests cover capture groups, invalid patterns/flags, no matches, input limits, and zero-length matches.
+- Manual checks: load example, test email matching, inspect captures, try an invalid expression, and verify a slow pattern is stopped.
