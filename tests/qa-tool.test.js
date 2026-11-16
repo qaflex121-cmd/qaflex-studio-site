@@ -64,3 +64,22 @@ test("JSON minifier and inspection report valid JSON details",()=>{
  assert.equal(inspectJson('[1,2]').type,"array");
  assert.equal(inspectJson('null').type,"null");
 });
+
+const {compileRegex,findMatches}=require("../regex-tool.js");
+test("regex tester finds matches and capture groups",()=>{
+ const matches=findMatches("(\\\\w+)@(\\\\w+\\\\.\\\\w+)","gi","qa@example.com and support@qaflex.dev");
+ assert.equal(matches.length,2);
+ assert.equal(matches[0].match,"qa@example.com");
+ assert.deepEqual(matches[0].groups,["qa","example.com"]);
+});
+test("regex tester handles no matches and invalid patterns",()=>{
+ assert.deepEqual(findMatches("xyz","g","abc"),[]);
+ assert.throws(()=>compileRegex("[","g"),/Invalid regular expression/);
+ assert.throws(()=>compileRegex("x","gg"),/flags/);
+ assert.throws(()=>findMatches("x","g","a".repeat(20001)),/too long/);
+ assert.throws(()=>compileRegex("x".repeat(501),"g"),/too long/);
+});
+test("regex tester returns one match without global flag and advances zero-length matches",()=>{
+ assert.equal(findMatches("a","i","A a").length,1);
+ assert.ok(findMatches("(?=a)","g","aa").length<=100);
+});
