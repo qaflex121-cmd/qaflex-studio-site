@@ -50,3 +50,11 @@ Then open `http://localhost:8000/qa-tool.html`. A static server is recommended o
 - Creates example cURL and browser Fetch snippets for the user to adapt.
 - The helper does not send requests or execute API calls; snippets are displayed as text only. Use placeholders for secrets and never enter real credentials.
 - Manual checks: try GET and POST, bearer auth, empty endpoint validation, copy scenario text, and verify generated snippets are examples only.
+
+ 
+## Free JSON Formatter & Validator
+- Page: `json-tool.html`; logic: `json-tool.js`.
+- Format JSON with 2- or 4-space indentation, validate syntax, minify JSON, load a safe example, clear fields, and copy output.
+- Runs locally in the browser and does not upload input or call an API.
+- Automated tests cover formatting, indentation, invalid/empty input, minification, and basic JSON structure inspection.
+- Manual checks: load example, format it, validate it, minify it, copy output, and try malformed JSON.
