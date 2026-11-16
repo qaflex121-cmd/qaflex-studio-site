@@ -42,3 +42,11 @@ Then open `http://localhost:8000/qa-tool.html`. A static server is recommended o
 - [ ] Test at desktop and mobile widths.
 - [ ] Confirm browser developer tools show no uncaught errors.
 - [ ] Confirm the tool does not make network requests when generating cases.
+
+
+## Free API Testing Helper
+- Page: `api-tool.html`; logic: `api-tool.js`.
+- Produces draft positive, negative, authorization, content-type, and method-specific scenarios from endpoint details.
+- Creates example cURL and browser Fetch snippets for the user to adapt.
+- The helper does not send requests or execute API calls; snippets are displayed as text only. Use placeholders for secrets and never enter real credentials.
+- Manual checks: try GET and POST, bearer auth, empty endpoint validation, copy scenario text, and verify generated snippets are examples only.
