@@ -67,7 +67,7 @@ test("JSON minifier and inspection report valid JSON details",()=>{
 
 const {compileRegex,findMatches}=require("../regex-tool.js");
 test("regex tester finds matches and capture groups",()=>{
- const matches=findMatches("(\\\\w+)@(\\\\w+\\\\.\\\\w+)","gi","qa@example.com and support@qaflex.dev");
+ const matches=findMatches("(\\w+)@(\\w+\\.\\w+)","gi","qa@example.com and support@qaflex.dev");
  assert.equal(matches.length,2);
  assert.equal(matches[0].match,"qa@example.com");
  assert.deepEqual(matches[0].groups,["qa","example.com"]);
