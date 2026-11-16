@@ -1,0 +1,60 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 864 >>
+stream
+BT
+/F1 16 Tf
+50 790 Td
+(Release Readiness Checklist) Tj
+/F1 10 Tf
+0 -24 Td
+(A practical go/no-go review for QA and engineering teams) Tj
+0 -24 Td
+(QAFlex Studio | Free QA Resource) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(- Confirm scope, acceptance criteria, platforms, and exclusions.) Tj
+0 -16 Td
+(- Review changed components, dependencies, migrations, and flags.) Tj
+0 -16 Td
+(- Review smoke, functional, integration, regression, and exploratory results.) Tj
+0 -16 Td
+(- Document open defects, severity, workarounds, and accepted risks.) Tj
+0 -16 Td
+(- Confirm deployment owner, approvers, window, and communication plan.) Tj
+0 -16 Td
+(- Verify environment, permissions, secrets, backups, and rollback steps.) Tj
+0 -16 Td
+(- Define post-deployment smoke checks and responsible owners.) Tj
+0 -16 Td
+(- Record go/no-go decision, evidence links, and approvers.) Tj
+0 -16 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1226
+%%EOF
