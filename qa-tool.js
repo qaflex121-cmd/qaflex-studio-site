@@ -95,5 +95,15 @@
   $("load-example").addEventListener("click", () => {input.value=EXAMPLE;$("char-count").textContent=String(input.value.length);input.focus();status.textContent="Example loaded. Select Generate test cases when ready.";});
   $("clear").addEventListener("click", () => {input.value="";$("char-count").textContent="0";current=[];render();status.textContent="Cleared.";input.focus();});
   $("copy").addEventListener("click", async () => {try {await root.navigator.clipboard.writeText(toText(current));status.textContent="Test cases copied to clipboard.";} catch (_) {status.textContent="Clipboard access is unavailable here. Use Export CSV instead."; }});
-  $("export").addEventListener("click", () => {const blob=new Blob(["\ufeff"+toCsv(current)],{type:"text/csv;charset=utf-8;"});const url=URL.createObjectURL(blob);const a=root.document.createElement("a");a.href=url;a.download="qaflex-test-cases.csv";a.click();URL.revokeObjectURL(url);status.textContent="CSV export started.";});
+  function download(content,type,filename) { const url=URL.createObjectURL(new Blob([content],{type})); const a=root.document.createElement("a"); a.href=url; a.download=filename; a.click(); root.setTimeout(()=>URL.revokeObjectURL(url),1000); }
+  $("export").addEventListener("click",()=>{download("\\ufeff"+toCsv(current),"text/csv;charset=utf-8;","qaflex-test-cases.csv");status.textContent="CSV export started.";});
+  $("save-json").addEventListener("click",()=>{download(toJson(current),"application/json;charset=utf-8;","qaflex-test-cases.json");status.textContent="JSON backup download started.";});
+  $("load-json").addEventListener("click",()=>$("json-file").click());
+  $("json-file").addEventListener("change",async event=>{
+    const file=event.target.files&&event.target.files[0]; if(!file)return;
+    if(file.size>2*1024*1024){status.textContent="File is too large. Choose a JSON file smaller than 2 MB.";event.target.value="";return;}
+    try{current=fromJson(await file.text());render();status.textContent="Loaded "+current.length+" test cases. Review them before use.";}
+    catch(error){status.textContent=error.message||"Could not load this file.";}
+    event.target.value="";
+  });
 })(typeof globalThis !== "undefined" ? globalThis : this);
