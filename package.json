@@ -1,0 +1,9 @@
+{
+  "name": "qaflex-studio-static-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Static QAFlex Studio website and browser-based QA test case generator",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}
