@@ -1,7 +1,7 @@
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const {generateCases,toCsv,toText,csvEscape,EXAMPLE}=require("../qa-tool.js");
+const {generateCases,toCsv,toText,csvEscape,toJson,fromJson,EXAMPLE}=require("../qa-tool.js");
 test("empty requirements return no cases",()=>assert.deepEqual(generateCases("   ","web","Medium","balanced"),[]));
 test("generates generic positive and web accessibility/responsive cases",()=>{
  const cases=generateCases("A visitor can search for an article.","web","High","balanced");
@@ -27,3 +27,7 @@ test("text export includes case IDs and expected results",()=>{
  const cases=generateCases(EXAMPLE,"web","Medium","balanced");
  const text=toText(cases);assert.match(text,/TC-001/);assert.match(text,/Expected:/);
 });
+
+test("JSON export preserves edited fields and round-trips safely",()=>{const cases=generateCases("A user can sign in.","web","High","balanced");cases[0].expected="Custom expected result";cases[0].status="Pass";assert.deepEqual(fromJson(toJson(cases)),cases);});
+test("JSON import rejects malformed and unsupported files",()=>{assert.throws(()=>fromJson("{bad json"),/valid JSON/);assert.throws(()=>fromJson({format:"other",version:1,cases:[]}),/supported/);assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:[{id:"1"}]}),/missing required/);});
+test("JSON import rejects unsupported status and excessive case counts",()=>{const one={id:"TC-1",title:"Title",priority:"Medium",category:"Positive",steps:"Do it",expected:"It works",status:"Unknown"};assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:[one]}),/priority or status/);assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:Array(501).fill(one)}),/500 test cases/);});
