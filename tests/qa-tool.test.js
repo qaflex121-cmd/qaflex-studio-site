@@ -46,3 +46,21 @@ test("API helper validates method and endpoint and generates safe examples",()=>
  assert.match(buildCurlExample({method:"GET",endpoint:"https://example.com/api/items",auth:"none"}),/curl/);
  assert.match(buildFetchExample({method:"GET",endpoint:"https://example.com/api/items",auth:"none"}),/fetch\(/);
 });
+
+const {formatJson,minifyJson,inspectJson}=require("../json-tool.js");
+test("JSON formatter formats valid JSON and supports indentation",()=>{
+ assert.equal(formatJson('{"a":1,"b":[true,false]}',2),'{\n  "a": 1,\n  "b": [\n    true,\n    false\n  ]\n}');
+ assert.match(formatJson('{"a":1}',4),/    "a"/);
+});
+test("JSON formatter rejects empty and malformed input",()=>{
+ assert.throws(()=>formatJson("  "),/Paste JSON/);
+ assert.throws(()=>formatJson('{"a":}',2),/Invalid JSON/);
+ assert.throws(()=>formatJson('{"a":1}',3),/Indent/);
+});
+test("JSON minifier and inspection report valid JSON details",()=>{
+ assert.equal(minifyJson('{ "a" : 1, "b": [2, 3] }'),'{"a":1,"b":[2,3]}');
+ assert.throws(()=>minifyJson("{bad"),/Invalid JSON/);
+ assert.deepEqual(inspectJson('{"x":1,"y":2}'),{formatted:'{\n  "x": 1,\n  "y": 2\n}',valid:true,type:"object",characters:13,keys:2});
+ assert.equal(inspectJson('[1,2]').type,"array");
+ assert.equal(inspectJson('null').type,"null");
+});
