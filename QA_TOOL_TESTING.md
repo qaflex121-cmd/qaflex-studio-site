@@ -67,3 +67,11 @@ Then open `http://localhost:8000/qa-tool.html`. A static server is recommended o
 - Runs locally; no text is uploaded or sent to an API.
 - Automated tests cover capture groups, invalid patterns/flags, no matches, input limits, and zero-length matches.
 - Manual checks: load example, test email matching, inspect captures, try an invalid expression, and verify a slow pattern is stopped.
+
+ 
+## HTTP Status Code Reference
+- Page: `status-codes.html`; logic/data: `status-codes.js`.
+- Search by code, meaning, category, or troubleshooting text; filter by 1xx–5xx class.
+- Includes common HTTP codes and QA troubleshooting tips, with links to MDN and the IANA registry.
+- Automated tests cover common codes, search, category filtering, and no-result behavior.
+- Manual checks: search 404 and timeout, filter 2xx, inspect responsive layout, and follow the reference links.
