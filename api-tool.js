@@ -1,0 +1,31 @@
+(function(root){"use strict";
+const METHODS=["GET","POST","PUT","PATCH","DELETE"];
+function generateApiScenarios(options){
+ const o=options||{},method=String(o.method||"GET").toUpperCase(),endpoint=String(o.endpoint||"").trim();
+ if(!METHODS.includes(method))throw new Error("Unsupported HTTP method.");
+ if(!endpoint||endpoint.length>500)throw new Error("A valid endpoint is required (maximum 500 characters).");
+ const auth=o.auth||"none",type=o.contentType||"application/json",hasBody=["POST","PUT","PATCH"].includes(method),cases=[];
+ const add=(title,steps,expected,category)=>cases.push({id:"API-"+String(cases.length+1).padStart(3,"0"),title,steps,expected,category});
+ add("Verify successful "+method+" request","Send a valid "+method+" request to "+endpoint+" with the required headers"+(hasBody?" and a valid body":"")+".","The API returns the documented success status and response schema.","Positive");
+ add("Reject malformed or missing input","Omit a required field and then send an invalid type or malformed value where applicable.","The API returns a documented 4xx response with actionable, non-sensitive error details.","Negative");
+ add("Reject unauthorized access and verify authorization","Attempt the request without credentials and with an authenticated user lacking required permission.","Protected resources deny unauthorized access and do not expose protected data.","Security");
+ add("Check unsupported content type","Send a request with an unsupported Content-Type header where a body is accepted.","The API returns the documented client error and does not process the request unexpectedly.","Headers");
+ add("Check not-found behavior","Use a nonexistent resource identifier or route appropriate to this endpoint.","The API returns the documented not-found response without leaking internal details.","Error handling");
+ if(hasBody)add("Validate request body contract","Send the sample body and variants with missing fields, extra fields, and incorrect data types.","The response follows the documented schema and validation rules.","Contract");
+ if(method==="GET"||method==="DELETE")add("Check idempotent/repeat behavior","Repeat the same request and compare resulting state and responses.","Repeated requests follow the endpoint's documented semantics.","Behavior");
+ if(auth==="bearer")add("Reject invalid bearer token","Send an expired, malformed, or invalid bearer token.","The API returns the documented authentication error and no protected data.","Security");
+ if(auth==="api-key")add("Reject missing or invalid API key","Omit the API key, then supply an invalid dummy key.","The API rejects unauthorized calls without revealing key details.","Security");
+ return cases;
+}
+function quoteShell(value){return "'"+String(value).replace(/'/g,"'\\''")+"'";}
+function buildCurlExample(o){const method=String(o.method||"GET").toUpperCase(),endpoint=String(o.endpoint||"").trim();if(!METHODS.includes(method)||!endpoint)throw new Error("A supported method and endpoint are required.");let lines=["curl -X "+method+" "+quoteShell(endpoint)];if(o.contentType)lines.push("  -H "+quoteShell("Content-Type: "+o.contentType));if(o.auth==="bearer")lines.push("  -H 'Authorization: Bearer <YOUR_TOKEN>'");if(o.auth==="api-key")lines.push("  -H 'X-API-Key: <YOUR_API_KEY>'");if(o.auth==="basic")lines.push("  -u '<USERNAME>:<PASSWORD>'");if(["POST","PUT","PATCH"].includes(method)&&o.body)lines.push("  --data "+quoteShell(o.body));return lines.join(" \\\n");}
+function buildFetchExample(o){const method=String(o.method||"GET").toUpperCase(),endpoint=String(o.endpoint||"").trim();if(!METHODS.includes(method)||!endpoint)throw new Error("A supported method and endpoint are required.");const headers={};if(o.contentType)headers["Content-Type"]=o.contentType;if(o.auth==="bearer")headers.Authorization="Bearer <YOUR_TOKEN>";if(o.auth==="api-key")headers["X-API-Key"]="<YOUR_API_KEY>";if(o.auth==="basic")headers.Authorization="Basic <BASE64_USERNAME_PASSWORD>";const config={method,headers};if(["POST","PUT","PATCH"].includes(method)&&o.body)config.body=o.body;return "const response = await fetch("+JSON.stringify(endpoint)+", "+JSON.stringify(config,null,2)+");\nconst data = await response.json();\nconsole.log(response.status, data);";}
+if(typeof module!=="undefined"&&module.exports)module.exports={generateApiScenarios,buildCurlExample,buildFetchExample};
+if(!root.document)return;
+const $=id=>root.document.getElementById(id);let current=[],opts=()=>({method:$("method").value,endpoint:$("endpoint").value,auth:$("auth").value,contentType:$("content-type").value,body:$("body").value});
+function render(){const target=$("cases");target.replaceChildren();current.forEach(c=>{const card=root.document.createElement("article");card.className="case";const h=root.document.createElement("h3");h.textContent=c.id+" · "+c.title;const tag=root.document.createElement("span");tag.className="tag";tag.textContent=c.category;const p=root.document.createElement("p");p.textContent="Steps: "+c.steps;const e=root.document.createElement("p");e.textContent="Expected: "+c.expected;card.append(h,tag,p,e);target.appendChild(card);});$("curl").textContent=buildCurlExample(opts());$("fetch").textContent=buildFetchExample(opts());["copy-cases","copy-curl","copy-fetch"].forEach(id=>$(id).disabled=false);}
+$("generate").addEventListener("click",()=>{try{current=generateApiScenarios(opts());render();$("status").textContent=current.length+" draft scenarios generated. No API request was sent.";}catch(e){$("status").textContent=e.message;current=[];$("cases").textContent="Enter a valid endpoint to continue.";["copy-cases","copy-curl","copy-fetch"].forEach(id=>$(id).disabled=true);}});
+async function copy(text){try{await root.navigator.clipboard.writeText(text);$("status").textContent="Copied to clipboard.";}catch(_){$("status").textContent="Clipboard unavailable in this context. Select and copy the displayed text manually.";}}
+$("copy-cases").addEventListener("click",()=>copy(current.map(c=>c.id+" — "+c.title+"\nCategory: "+c.category+"\nSteps: "+c.steps+"\nExpected: "+c.expected).join("\n\n")));
+$("copy-curl").addEventListener("click",()=>copy($("curl").textContent));$("copy-fetch").addEventListener("click",()=>copy($("fetch").textContent));
+})(typeof globalThis!=="undefined"?globalThis:this);
