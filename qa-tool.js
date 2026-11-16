@@ -48,7 +48,21 @@
   function toText(cases) {
     return (cases || []).map(c => c.id + " — " + c.title + "\nPriority: " + c.priority + " | Category: " + c.category + "\nSteps: " + c.steps + "\nExpected: " + c.expected + "\nStatus: " + c.status).join("\n\n");
   }
-  const api = {generateCases, toCsv, toText, csvEscape, EXAMPLE};
+  function toJson(cases) { return JSON.stringify({format:"qaflex-test-cases",version:1,cases:cases || []},null,2); }
+  function fromJson(source) {
+    let data;
+    try { data = typeof source === "string" ? JSON.parse(source) : source; } catch (_) { throw new Error("The selected file is not valid JSON."); }
+    if (!data || data.format !== "qaflex-test-cases" || data.version !== 1 || !Array.isArray(data.cases)) throw new Error("This file is not a supported QAFlex test-case export.");
+    if (data.cases.length > 500) throw new Error("The file contains more than 500 test cases.");
+    const fields=["id","title","priority","category","steps","expected","status"], priorities=["High","Medium","Low"], statuses=["Not run","Pass","Fail","Blocked"];
+    return data.cases.map((item,index)=>{
+      if (!item || typeof item!=="object" || fields.some(key=>typeof item[key]!=="string")) throw new Error("Test case "+(index+1)+" is missing required text fields.");
+      if (!priorities.includes(item.priority)||!statuses.includes(item.status)) throw new Error("Test case "+(index+1)+" has an unsupported priority or status.");
+      for (const key of fields) if(item[key].length>10000) throw new Error("A field in test case "+(index+1)+" is too long.");
+      return Object.fromEntries(fields.map(key=>[key,item[key]]));
+    });
+  }
+  const api = {generateCases,toCsv,toText,csvEscape,toJson,fromJson,EXAMPLE};
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   if (!root.document) return;
   const $ = id => root.document.getElementById(id);
@@ -56,7 +70,7 @@
   let current = [];
   input.addEventListener("input", () => $("char-count").textContent = String(input.value.length));
   function render() {
-    if (!current.length) { results.innerHTML = '<p class="muted">No test cases yet. Enter a requirement and generate cases.</p>'; $("copy").disabled = $("export").disabled = true; return; }
+    if (!current.length) { results.innerHTML = '<p class="muted">No test cases yet. Enter a requirement and generate cases.</p>'; $("copy").disabled = $("export").disabled = $("save-json").disabled = true; return; }
     const table = root.document.createElement("table");
     table.innerHTML = "<thead><tr><th>ID</th><th>Test case</th><th>Priority</th><th>Category</th><th>Steps</th><th>Expected result</th><th>Status</th></tr></thead>";
     const tbody = root.document.createElement("tbody");
@@ -72,7 +86,7 @@
       ["Not run","Pass","Fail","Blocked"].forEach(v => {const o=root.document.createElement("option");o.value=o.textContent=v;select.appendChild(o);});
       select.value=c.status;select.setAttribute("aria-label",c.id+" status");select.addEventListener("change",()=>c.status=select.value);td.appendChild(select);tr.appendChild(td);tbody.appendChild(tr);
     });
-    table.appendChild(tbody); results.replaceChildren(table); $("copy").disabled = $("export").disabled = false;
+    table.appendChild(tbody); results.replaceChildren(table); $("copy").disabled = $("export").disabled = $("save-json").disabled = false;
   }
   $("generate").addEventListener("click", () => {
     current = generateCases(input.value, $("area").value, $("priority").value, $("coverage").value);
