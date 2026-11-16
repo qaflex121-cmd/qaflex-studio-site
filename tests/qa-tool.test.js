@@ -31,3 +31,18 @@ test("text export includes case IDs and expected results",()=>{
 test("JSON export preserves edited fields and round-trips safely",()=>{const cases=generateCases("A user can sign in.","web","High","balanced");cases[0].expected="Custom expected result";cases[0].status="Pass";assert.deepEqual(fromJson(toJson(cases)),cases);});
 test("JSON import rejects malformed and unsupported files",()=>{assert.throws(()=>fromJson("{bad json"),/valid JSON/);assert.throws(()=>fromJson({format:"other",version:1,cases:[]}),/supported/);assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:[{id:"1"}]}),/missing required/);});
 test("JSON import rejects unsupported status and excessive case counts",()=>{const one={id:"TC-1",title:"Title",priority:"Medium",category:"Positive",steps:"Do it",expected:"It works",status:"Unknown"};assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:[one]}),/priority or status/);assert.throws(()=>fromJson({format:"qaflex-test-cases",version:1,cases:Array(501).fill(one)}),/500 test cases/);});
+
+const {generateApiScenarios,buildCurlExample,buildFetchExample}=require("../api-tool.js");
+test("API helper creates method-aware positive and negative scenarios",()=>{
+ const cases=generateApiScenarios({method:"POST",endpoint:"/api/orders",auth:"bearer",body:'{"item":"book"}',contentType:"application/json"});
+ assert.ok(cases.some(c=>c.title.includes("successful POST")));
+ assert.ok(cases.some(c=>c.title.toLowerCase().includes("unauthorized")));
+ assert.ok(cases.some(c=>c.title.toLowerCase().includes("malformed")));
+ assert.ok(cases.every(c=>c.expected && c.steps));
+});
+test("API helper validates method and endpoint and generates safe examples",()=>{
+ assert.throws(()=>generateApiScenarios({method:"TRACE",endpoint:"/orders"}),/method/);
+ assert.throws(()=>generateApiScenarios({method:"GET",endpoint:""}),/endpoint/);
+ assert.match(buildCurlExample({method:"GET",endpoint:"https://example.com/api/items",auth:"none"}),/curl/);
+ assert.match(buildFetchExample({method:"GET",endpoint:"https://example.com/api/items",auth:"none"}),/fetch\(/);
+});
