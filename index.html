@@ -81,9 +81,13 @@
     .contact-box { background:linear-gradient(120deg,#0d1726,#17334a); color:white; border-radius:22px; padding:clamp(28px,5vw,48px); display:flex; justify-content:space-between; gap:28px; align-items:center; flex-wrap:wrap; }
     .contact-box p { color:#d0dbea; max-width:650px; }
     .contact-box a:not(.button) { color:#6fe3d7; }
+    .newsletter-section { background:#eaf3f7; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+    .newsletter-panel { display:grid; grid-template-columns:minmax(0,1fr) minmax(320px,540px); gap:30px; align-items:center; background:#fff; border:1px solid var(--line); border-radius:20px; padding:clamp(22px,4vw,36px); box-shadow:var(--shadow); }
+    .newsletter-copy p { color:var(--muted); max-width:470px; }
+    .newsletter-frame { width:100%; max-width:540px; height:430px; border:0; display:block; margin:0 auto; background:#fff; }
     footer { color:var(--muted); border-top:1px solid var(--line); padding:28px 0; font-size:.9rem; }
     .footer-row { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-    @media(max-width:850px) { .grid, .feature-strip { grid-template-columns:repeat(2,minmax(0,1fr)); } .about-grid { grid-template-columns:1fr; } }
+    @media(max-width:850px) { .grid, .feature-strip { grid-template-columns:repeat(2,minmax(0,1fr)); } .about-grid { grid-template-columns:1fr; } .newsletter-panel { grid-template-columns:1fr; } .newsletter-frame { max-width:540px; } }
     @media(max-width:600px) {
       .wrap { width:min(100% - 30px,1120px); }
       nav { padding:18px 0; align-items:flex-start; }
@@ -92,6 +96,7 @@
       .section { padding:46px 0; }
       .grid, .feature-strip { grid-template-columns:1fr; }
       .card { padding:21px; }
+      .newsletter-frame { height:470px; }
     }
   </style>
   <script type="application/ld+json">
@@ -116,6 +121,7 @@
           <a href="#products">Digital products</a>
           <a href="#free-resources">Free resources</a>
           <a href="#knowledge-hub">Knowledge hub</a>
+          <a href="#newsletter">Free updates</a>
           <a href="#services">Services</a>
           <a href="#process">How it works</a>
           <a href="#about">About</a>
@@ -250,6 +256,7 @@
         <article class="resource-card"><span class="section-kicker">API testing</span><h3>API coverage checklist</h3><ul><li>Validate success and expected error status codes.</li><li>Check schema, required fields and data types.</li><li>Cover missing, invalid, boundary and unexpected inputs.</li><li>Verify authorization and role-based access.</li><li>Use synthetic or approved test data; never expose secrets.</li></ul></article>
         <article class="resource-card"><span class="section-kicker">Test strategy</span><h3>Release readiness checklist</h3><ul><li>Review scope, acceptance criteria and changed components.</li><li>Prioritize tests by business impact and risk.</li><li>Confirm critical journeys and integrations are covered.</li><li>Review open defects, severity and workarounds.</li><li>Record evidence, residual risks and release recommendation.</li></ul></article>
       </div></div></section>
+
     <section class="section" id="knowledge-hub"><div class="wrap">
       <div class="section-head"><div><div class="eyebrow">QAFlex knowledge hub</div><h2>Practical notes for QA engineers</h2></div><p>Actionable guidance across automation design, API quality and AI-assisted testing.</p></div>
       <div class="grid">
@@ -258,6 +265,20 @@
         <article class="article-card"><span class="section-kicker">AI in QA</span><h3>Use AI for test design—with human review</h3><p>AI can brainstorm scenarios and organize test ideas, but generated output needs validation against product behaviour.</p><ul><li>Provide clear requirements and constraints.</li><li>Ask for edge cases and assumptions separately.</li><li>Check expected results with product knowledge.</li><li>Never paste credentials or sensitive production data.</li></ul></article>
       </div><p class="note">These are introductory guides. More detailed tutorials and downloadable examples can be added as the QAFlex library grows.</p>
     </div></section>
+
+    <section class="section newsletter-section" id="newsletter">
+      <div class="wrap">
+        <div class="newsletter-panel">
+          <div class="newsletter-copy">
+            <div class="section-kicker">QAFlex Studio updates</div>
+            <h2>Get practical QA resources in your inbox</h2>
+            <p>Subscribe for new QA checklists, Playwright tips, API testing guidance and occasional updates about new QAFlex Studio toolkits. Confirm your email address to complete signup.</p>
+            <p class="note">You'll receive email only after you confirm your subscription. You can unsubscribe at any time.</p>
+          </div>
+          <iframe class="newsletter-frame" title="QAFlex Studio email signup form" src="https://60e25ce3.sibforms.com/v2/serve/MUIFABe0oH08sAfla8czSyMsIYg4GtSGA_nyL9p6fGqwPfmhA8x9edBEUIYEDChnMrxjiZjWpVixNZYX5QG9lJjA8wDwvFtdhfMjMSiIkiGddl8Qo8C9yNjyCKsaNGw80YLK50B0c6QDWvTt7i_sBT57e80RJxxITm_FzvvzK-egp6dmKMI4uHV1DwLBr6UZ47PqW3dP_NmizJ-o7g==" frameborder="0" scrolling="auto" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+      </div>
+    </section>
 
     <section class="section band" id="problems">
       <div class="wrap">
