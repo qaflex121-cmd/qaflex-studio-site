@@ -10,7 +10,7 @@
 - Web UI, API, and general feature modes.
 - Positive, validation, negative, boundary, resilience, accessibility, responsive, and API contract suggestions when relevant.
 - Edit priority, expected result, and execution status.
-- Export CSV or copy cases as text.
+- Export CSV or copy cases as text.\n- Save a JSON backup and load it later, preserving edited fields and status.\n- Validate imported JSON and reject unsupported or malformed files.
 - Works as a static page without a backend, account, API key, or external JavaScript library.
 
 ## Privacy and limitations
@@ -38,7 +38,7 @@ Then open `http://localhost:8000/qa-tool.html`. A static server is recommended o
 - [ ] Generate cases in Web UI, API, and General modes.
 - [ ] Edit a priority and expected result; change execution status.
 - [ ] Copy as text works on a supported secure/local origin.
-- [ ] CSV download opens with correctly escaped commas, quotes, and line breaks.
+- [ ] CSV download opens with correctly escaped commas, quotes, and line breaks.\n- [ ] Save JSON, reload it, and confirm edited priorities, expected results, and statuses are preserved.\n- [ ] Malformed, unsupported, oversized, or invalid-schema JSON is rejected without replacing current cases.
 - [ ] Test at desktop and mobile widths.
 - [ ] Confirm browser developer tools show no uncaught errors.
 - [ ] Confirm the tool does not make network requests when generating cases.
