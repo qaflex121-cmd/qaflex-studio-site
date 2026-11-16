@@ -1,0 +1,60 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 826 >>
+stream
+BT
+/F1 16 Tf
+50 790 Td
+(API Test Coverage Checklist) Tj
+/F1 10 Tf
+0 -24 Td
+(Plan practical, risk-aware API regression tests) Tj
+0 -24 Td
+(QAFlex Studio | Free QA Resource) Tj
+0 -16 Td
+() Tj
+0 -16 Td
+(- Verify method, endpoint, headers, authentication, and content type.) Tj
+0 -16 Td
+(- Cover valid, missing, malformed, boundary, and unexpected inputs.) Tj
+0 -16 Td
+(- Validate status codes, response schema, required fields, and types.) Tj
+0 -16 Td
+(- Test pagination, filtering, sorting, and query combinations.) Tj
+0 -16 Td
+(- Check business rules, state changes, and side effects.) Tj
+0 -16 Td
+(- Test unauthenticated access and role permissions.) Tj
+0 -16 Td
+(- Use deterministic synthetic data and redact sensitive logs.) Tj
+0 -16 Td
+(- Track coverage by endpoint, risk, and positive or negative scenario.) Tj
+0 -16 Td
+ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1188
+%%EOF
