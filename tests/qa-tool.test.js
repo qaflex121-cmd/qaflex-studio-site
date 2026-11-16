@@ -83,3 +83,18 @@ test("regex tester returns one match without global flag and advances zero-lengt
  assert.equal(findMatches("a","i","A a").length,1);
  assert.ok(findMatches("(?=a)","g","aa").length<=100);
 });
+
+const {STATUS_CODES,filterStatusCodes}=require("../status-codes.js");
+test("HTTP status reference includes common codes and practical tips",()=>{
+ assert.ok(STATUS_CODES.length>=25);
+ const notFound=filterStatusCodes("404","all");
+ assert.equal(notFound.length,1);
+ assert.equal(notFound[0].meaning,"Not Found");
+ assert.ok(notFound[0].tip.length>10);
+ assert.equal(filterStatusCodes("429","all")[0].meaning,"Too Many Requests");
+});
+test("HTTP status reference filters categories and searches descriptions",()=>{
+ assert.ok(filterStatusCodes("","2").every(s=>s.code>=200&&s.code<300));
+ assert.ok(filterStatusCodes("timeout","all").some(s=>s.code===504));
+ assert.deepEqual(filterStatusCodes("not-a-real-code","all"),[]);
+});
