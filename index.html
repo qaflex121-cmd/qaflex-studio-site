@@ -31,7 +31,16 @@
     .brand span { color:#53e0d0; }
     .nav-links { display:flex; gap:20px; align-items:center; flex-wrap:wrap; }
     .nav-links a { color:#dce7f5; text-decoration:none; font-size:.94rem; }
+
     .nav-links a:hover { color:#53e0d0; }
+    .tools-menu { position:relative; }
+    .tools-menu summary { list-style:none; cursor:pointer; color:#dce7f5; font-size:.94rem; white-space:nowrap; }
+    .tools-menu summary::-webkit-details-marker { display:none; }
+    .tools-menu summary:hover, .tools-menu[open] summary { color:#53e0d0; }
+    .tools-dropdown { position:absolute; z-index:20; top:calc(100% + 12px); left:0; min-width:245px; padding:8px; background:#fff; border:1px solid var(--line); border-radius:12px; box-shadow:0 14px 32px rgba(0,0,0,.2); display:grid; gap:2px; }
+    .tools-dropdown a { color:var(--ink); display:block; padding:10px 12px; border-radius:7px; }
+    .tools-dropdown a:hover { color:var(--accent-dark); background:var(--soft); }
+    @media(max-width:600px) { .tools-menu { position:static; } .tools-dropdown { position:static; min-width:0; width:100%; box-shadow:none; margin-top:8px; } }
     .hero { padding:76px 0 84px; color:white; background:radial-gradient(ellipse at 85% 15%,rgba(22,166,161,.22),transparent 34%),var(--navy); }
     .eyebrow { color:#68e0d3; font-weight:800; text-transform:uppercase; letter-spacing:.13em; font-size:.78rem; }
     h1 { font-size:clamp(2.45rem,6vw,4.65rem); line-height:1.06; letter-spacing:-.045em; max-width:850px; margin:15px 0 20px; }
@@ -118,7 +127,16 @@
       <nav aria-label="Main navigation">
         <a class="brand" href="#top">QA<span>FLEX</span> STUDIO</a>
         <div class="nav-links">
-          <a href="qa-tool.html">Test Case Generator</a><a href="api-tool.html">Free API helper</a><a href="json-tool.html">JSON Formatter</a><a href="regex-tool.html">Regex Tester</a><a href="status-codes.html">HTTP Status Codes</a>
+          <details class="tools-menu">
+            <summary>Free QA Tools <span aria-hidden="true">▾</span></summary>
+            <div class="tools-dropdown">
+              <a href="qa-tool.html">QA Test Case Generator</a>
+              <a href="api-tool.html">API Testing Helper</a>
+              <a href="json-tool.html">JSON Formatter &amp; Validator</a>
+              <a href="regex-tool.html">Regex Tester</a>
+              <a href="status-codes.html">HTTP Status Code Reference</a>
+            </div>
+          </details>
           <a href="#products">Digital products</a>
           <a href="#free-resources">Free resources</a>
           <a href="#knowledge-hub">Knowledge hub</a>
