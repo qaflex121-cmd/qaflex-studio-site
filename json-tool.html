@@ -11,4 +11,10 @@
 <p id="status" role="status" aria-live="polite">Paste JSON or load the example to begin.</p>
 <div class="field"><label for="json-output">Output</label><textarea id="json-output" spellcheck="false" readonly placeholder="Formatted or minified JSON appears here."></textarea></div><div class="actions"><button class="btn" id="copy" type="button">Copy output</button></div>
 <p class="privacy"><strong>Privacy:</strong> JSON is processed locally in this browser. The tool does not upload your content or call an API. Avoid pasting passwords, tokens, or sensitive production data into any tool.</p></section>
+<section class="panel"><h2>How to validate JSON</h2><p>JSON requires double quotes around property names and string values. Commas separate items but should not trail the final item. Objects use curly braces and arrays use square brackets. Values can be strings, numbers, booleans, null, objects, or arrays.</p><h3>Valid JSON example</h3><pre><code>{
+  "id": 101,
+  "active": true,
+  "tags": ["qa", "api"],
+  "owner": null
+}</code></pre><h3>Common JSON syntax errors</h3><ul><li>Using single quotes instead of double quotes.</li><li>Leaving a trailing comma after the last property or array item.</li><li>Forgetting a closing brace, bracket, or quotation mark.</li><li>Using comments, undefined, or NaN, which are not standard JSON values.</li></ul><h3>Frequently asked questions</h3><h4>Does formatting change the data?</h4><p>Formatting changes whitespace only. Minifying removes unnecessary whitespace; both actions preserve the parsed JSON value.</p><h4>Can this validate an API response against a schema?</h4><p>No. It checks JSON syntax and formats or minifies the value; it does not validate against JSON Schema or an API contract.</p><h4>Is my JSON uploaded?</h4><p>No. Processing happens in your browser. Still avoid pasting credentials, personal information, or confidential production payloads.</p></section>
 <a class="home" href="api-tool.html">Try the Free API Testing Helper →</a></main><script src="json-tool.js"></script></body></html>
