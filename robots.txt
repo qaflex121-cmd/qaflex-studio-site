@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://qaflex121-cmd.github.io/qaflex-studio-site/sitemap.xml
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: https://qaflex-studio-site.pages.dev/sitemap.xml
