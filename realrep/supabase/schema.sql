@@ -138,6 +138,29 @@ drop policy if exists "Users view their own reports" on public.reports;
 create policy "Users view their own reports" on public.reports
 for select to authenticated using (auth.uid() = reporter_id);
 
+-- Creator-level reputation aggregates all reactions on all of a creator's posts.
+-- The public view exposes only totals and a derived approval estimate, never voter identities.
+create or replace view public.creator_reputation as
+select
+  pr.id as author_id,
+  coalesce(sum(rc.like_count), 0)::bigint as like_count,
+  coalesce(sum(rc.dislike_count), 0)::bigint as dislike_count,
+  case
+    when coalesce(sum(rc.like_count), 0) + coalesce(sum(rc.dislike_count), 0) = 0 then 50
+    else round(100.0 * (coalesce(sum(rc.like_count), 0) + 2) /
+      (coalesce(sum(rc.like_count), 0) + coalesce(sum(rc.dislike_count), 0) + 4))::integer
+  end as reputation_score
+from public.profiles pr
+left join public.posts p on p.author_id = pr.id
+left join (
+  select post_id,
+    count(*) filter (where reaction = 'like') as like_count,
+    count(*) filter (where reaction = 'dislike') as dislike_count
+  from public.reactions
+  group by post_id
+) rc on rc.post_id = p.id
+group by pr.id;
+
 -- Public feed contains only aggregate reaction counts, never voter identities.
 -- The view owner can aggregate underlying reaction rows; only safe columns are exposed.
 create or replace view public.feed_posts as
@@ -154,9 +177,11 @@ select
     when coalesce(rc.like_count, 0) + coalesce(rc.dislike_count, 0) = 0 then 50
     else round(100.0 * (coalesce(rc.like_count, 0) + 2) /
       (coalesce(rc.like_count, 0) + coalesce(rc.dislike_count, 0) + 4))::integer
-  end as post_approval_score
+  end as post_approval_score,
+  cr.reputation_score as creator_reputation_score
 from public.posts p
 join public.profiles pr on pr.id = p.author_id
+join public.creator_reputation cr on cr.author_id = p.author_id
 left join (
   select post_id,
     count(*) filter (where reaction = 'like') as like_count,
@@ -166,6 +191,7 @@ left join (
 ) rc on rc.post_id = p.id;
 
 grant select on public.feed_posts to anon, authenticated;
+grant select on public.creator_reputation to anon, authenticated;
 grant select on public.profiles to anon, authenticated;
 grant select, insert, update, delete on public.posts to authenticated;
 grant select, insert, update, delete on public.reactions to authenticated;
