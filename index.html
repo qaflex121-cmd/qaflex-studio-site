@@ -396,7 +396,7 @@
     </div>
   </footer>
 
-<a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top">
+<a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top" hidden>
   <span aria-hidden="true">↑</span>
 </a>
 <style>
@@ -404,6 +404,18 @@
 .back-to-top:hover,.back-to-top:focus-visible{transform:translateY(-3px);opacity:1;outline:3px solid #0d1726;outline-offset:3px}
 html{scroll-behavior:smooth;scroll-padding-top:16px}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.back-to-top{transition:none}}
+.back-to-top[hidden]{display:none}
 </style>
+<script>
+(() => {
+  const button = document.querySelector('.back-to-top');
+  if (!button) return;
+  const updateVisibility = () => {
+    button.hidden = window.scrollY < 300;
+  };
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+  updateVisibility();
+})();
+</script>
 </body>
 </html>
