@@ -15,7 +15,7 @@
   };
   function setupPanel() {
     const note = document.querySelector(".demo-note");
-    if (note) note.innerHTML = "<b>Backend setup required:</b> this page is hosted publicly, but shared accounts and posts activate only after the owner configures Supabase. Demo activity is local to this browser.";
+    if (note) note.innerHTML = "<b>RealRep:</b> account services connect when the public Supabase configuration is set. Until then, demo activity stays in this browser.";
     const composer = document.querySelector(".composer");
     if (!composer) return;
     const panel = document.createElement("section");
@@ -37,6 +37,8 @@
   client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey, {
     auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
   });
+  const note = document.querySelector(".demo-note");
+  if (note) note.innerHTML = "<b>Shared backend configured:</b> posts and reactions are stored in the connected RealRep database. Community approval is a signal, not proof of misconduct.";
   const status = $("accountStatus");
   if (status) status.textContent = "Connecting securely to RealRep…";
   const authError = (error) => {
@@ -125,13 +127,18 @@
         const initial = (p.display_name || p.username || "R").trim().charAt(0).toUpperCase();
         const mine = myReactions[p.id];
         const date = new Date(p.created_at).toLocaleString();
-        return '<article class="post"><div class="posthead"><div class="avatar">'+escapeHtml(initial)+'</div><div class="who"><b>'+escapeHtml(p.display_name || p.username)+'</b><div class="handle">@'+escapeHtml(p.username)+' · '+escapeHtml(date)+'</div></div><span class="reputation">Approval '+score+'/100</span></div><div class="postbody">'+escapeHtml(p.body)+'</div><div class="postfoot"><button class="react '+(mine==="like"?"onlike":"")+'" data-live-vote="like" data-id="'+p.id+'">♥ Like <b>'+Number(p.like_count)+'</b></button><button class="react '+(mine==="dislike"?"ondislike":"")+'" data-live-vote="dislike" data-id="'+p.id+'">▾ Dislike <b>'+Number(p.dislike_count)+'</b></button><button class="report" data-live-report="'+p.id+'">Report</button></div></article>';
+        return '<article class="post"><div class="posthead"><div class="avatar">'+escapeHtml(initial)+'</div><div class="who"><b>'+escapeHtml(p.display_name || p.username)+'</b><div class="handle">@'+escapeHtml(p.username)+' · '+escapeHtml(date)+'</div></div><span class="reputation">Creator rep '+Number(p.creator_reputation_score ?? score)+'/100</span></div><div class="postbody">'+escapeHtml(p.body)+'</div><div class="postfoot"><button class="react '+(mine==="like"?"onlike":"")+'" data-live-vote="like" data-id="'+p.id+'">♥ Like <b>'+Number(p.like_count)+'</b></button><button class="react '+(mine==="dislike"?"ondislike":"")+'" data-live-vote="dislike" data-id="'+p.id+'">▾ Dislike <b>'+Number(p.dislike_count)+'</b></button><button class="report" data-live-report="'+p.id+'">Report</button></div></article>';
       }).join("");
     }
-    const mine = posts.filter(p => currentUser && p.author_id === currentUser.id);
-    const totalLikes = mine.reduce((n,p) => n + Number(p.like_count), 0);
-    const totalDislikes = mine.reduce((n,p) => n + Number(p.dislike_count), 0);
-    const score = reputation(totalLikes, totalDislikes);
+    let totalLikes = 0, totalDislikes = 0, score = 50;
+    if (currentUser) {
+      const ownSummary = await client.from("creator_reputation").select("like_count,dislike_count,reputation_score").eq("author_id", currentUser.id).maybeSingle();
+      if (!ownSummary.error && ownSummary.data) {
+        totalLikes = Number(ownSummary.data.like_count || 0);
+        totalDislikes = Number(ownSummary.data.dislike_count || 0);
+        score = Number(ownSummary.data.reputation_score ?? 50);
+      }
+    }
     if ($("myScore")) $("myScore").innerHTML = score + '<span style="font-size:16px;color:#b8d4c8"> / 100</span>';
     if ($("scoreBar")) $("scoreBar").style.width = score + "%";
     if ($("myLikes")) $("myLikes").textContent = totalLikes;
@@ -191,9 +198,18 @@
   async function boot() {
     await refreshUser();
     await loadFeed();
-    client.auth.onAuthStateChange(async () => {
-      await refreshUser();
-      await loadFeed();
+    client.auth.onAuthStateChange((_event, session) => {
+      currentUser = session && session.user ? session.user : null;
+      // Defer follow-up API calls so they run outside the auth callback's internal lock.
+      setTimeout(async () => {
+        currentProfile = null;
+        if (currentUser) {
+          const res = await client.from("profiles").select("id,username,display_name").eq("id", currentUser.id).maybeSingle();
+          if (!res.error) currentProfile = res.data;
+        }
+        updateAuthUi();
+        await loadFeed();
+      }, 0);
     });
   }
   boot().catch(authError);
