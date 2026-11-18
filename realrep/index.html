@@ -11,7 +11,7 @@
 </style>
 </head>
 <body>
-<header class="top"><div class="brand"><span class="mark">R</span><span>RealRep <span class="tag">/ social with accountability</span></span></div><span class="pill">INTERACTIVE PREVIEW</span></header>
+<header class="top"><div class="brand"><span class="mark">R</span><span>RealRep <span class="tag">/ social with accountability</span></span></div><span class="pill">PUBLIC PREVIEW</span></header>
 <main class="wrap">
 <section class="hero"><div><div class="eyebrow">A different kind of social network</div><h1>Fame is earned.<br>Respect is maintained.</h1><p>Likes show attention. Dislikes show disapproval. Reputation gives people a fuller picture—without confusing disagreement with proof of wrongdoing.</p><span class="trend">↗ Built around accountability</span></div><div class="scorebox"><small>YOUR DEMO REPUTATION</small><div class="bigscore" id="myScore">74<span style="font-size:16px;color:#b8d4c8"> / 100</span></div><div class="bar"><span id="scoreBar"></span></div><div class="tiny" id="scoreLabel">Positive community signals</div><hr style="border:0;border-top:1px solid #315347;margin:16px 0"><div style="display:flex;justify-content:space-between"><small>Likes received</small><b id="myLikes">38</b></div><div style="display:flex;justify-content:space-between;margin-top:7px"><small>Dislikes received</small><b id="myDislikes">8</b></div></div></section>
 <div class="demo-note"><b>Prototype notice:</b> this is a public interactive preview. Posts and reactions are stored only in this browser. Accounts, shared posting, and cross-device reputation require a connected backend. Sample creators and metrics are fictional.</div>
@@ -19,7 +19,7 @@
 <div class="composer"><label for="newPost" style="font-weight:750;display:block;margin-bottom:9px">Share something worth standing behind</label><textarea id="newPost" maxlength="500" placeholder="Share an idea, a lesson, or a correction…"></textarea><div class="composebottom"><span class="muted" style="font-size:12px"><span id="count">0</span>/500 characters</span><button class="btn" id="publish">Publish post ↗</button></div></div>
 <div id="feed"></div></section>
 <aside class="sidegrid"><div class="sidecard"><h3>What reputation means</h3><p class="principle">A 0–100 estimate of audience approval—not a verdict on a person's character. Reactions are one signal, not proof.</p><div class="metric"><span>Popularity</span><b>Attention & reach</b></div><div class="metric"><span>Reputation</span><b>Audience approval</b></div><div class="metric"><span>Accountability</span><b>Corrections & conduct</b></div></div><div class="sidecard"><h3>Community safeguards</h3><p class="principle">No “most hated” leaderboard. No paid score boosts. No automatic misconduct labels from dislikes. A real launch needs anti-bot detection, appeals, privacy controls, and moderation.</p></div><div class="sidecard"><h3>Try the prototype</h3><p class="principle">Publish a post, like or dislike sample posts, and refresh the page. Your demo activity stays in this browser only.</p><button class="btn light" style="width:100%;margin-top:12px" id="reset">Reset demo activity</button></div></aside></div>
-<div class="footer">RealRep · Concept preview v0.4 · Built for fairer social accountability · Not a live multi-user network yet</div>
+<div class="footer">RealRep · Early access preview · Public demo with backend integration ready</div>
 </main><div class="toast" id="toast"></div>
 <script>
 const seed=[
@@ -41,4 +41,7 @@ $('publish').addEventListener('click',()=>{const text=$('newPost').value.trim();
 $('feed').addEventListener('click',e=>{const b=e.target.closest('[data-vote]');if(b){const p=posts.find(x=>x.id===b.dataset.id);if(!p)return;const k=b.dataset.vote,old=votes[p.id];if(old===k){p[k==='like'?'likes':'dislikes']=Math.max(0,p[k==='like'?'likes':'dislikes']-1);delete votes[p.id]}else{if(old)p[old==='like'?'likes':'dislikes']=Math.max(0,p[old==='like'?'likes':'dislikes']-1);p[k==='like'?'likes':'dislikes']++;votes[p.id]=k}save();render();toast('Demo reaction saved in this browser.');return}const r=e.target.closest('[data-report]');if(r){if(confirm('Report this sample post for review? This demo does not send reports to a moderation team.'))toast('Demo only: no report was transmitted.')}});
 $('reset').addEventListener('click',()=>{if(!confirm('Reset local demo posts and votes?'))return;localStorage.removeItem('realrep-live-demo-posts');localStorage.removeItem('realrep-live-demo-votes');posts=seed.map(p=>({...p}));votes={};render();toast('Demo activity reset.')});
 render();
-</script></body></html>
+</script><script src="./config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./app.js"></script>
+</body></html>
