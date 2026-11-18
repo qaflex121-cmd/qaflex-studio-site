@@ -13,4 +13,8 @@
   <url><loc>https://qaflex-studio-site.pages.dev/terms.html</loc></url>
   <url><loc>https://qaflex-studio-site.pages.dev/ai-qa-agents.html</loc></url>
   <url><loc>https://qaflex-studio-site.pages.dev/realrep/</loc></url>
+  <url><loc>https://qaflex-studio-site.pages.dev/blog/</loc></url>
+  <url><loc>https://qaflex-studio-site.pages.dev/blog/reduce-flaky-playwright-tests.html</loc></url>
+  <url><loc>https://qaflex-studio-site.pages.dev/blog/build-api-regression-suite.html</loc></url>
+  <url><loc>https://qaflex-studio-site.pages.dev/blog/qa-release-readiness-checklist.html</loc></url>
 </urlset>
