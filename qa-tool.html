@@ -30,4 +30,12 @@
 <section class="panel"><h2>How to write better test cases from a requirement</h2><p>Start with observable acceptance criteria: the user's action, the expected result, validation rules, and any relevant permissions or limits. For a login feature, for example, cover valid credentials, invalid credentials, empty fields, repeated failures, session behavior, and keyboard navigation where applicable.</p><h3>Example coverage checklist</h3><ul><li><strong>Positive:</strong> valid input completes the intended workflow.</li><li><strong>Negative:</strong> invalid or unauthorized input is rejected safely.</li><li><strong>Boundary:</strong> minimum, maximum, empty, and unusually long values are handled correctly.</li><li><strong>Error handling:</strong> failures provide a useful message without exposing sensitive details.</li><li><strong>Regression:</strong> related workflows continue to work after the change.</li></ul><h3>Frequently asked questions</h3><h4>Does this generator use AI?</h4><p>No. It uses local rule-based patterns to suggest a first draft; it does not call an AI model.</p><h4>Can I use the output directly in a test management system?</h4><p>Export the CSV and map its columns to your system's import format. Review each case and adapt steps, expected results, test data, and priority first.</p><h4>Does generated coverage guarantee complete testing?</h4><p>No. Use risk analysis, product knowledge, and acceptance criteria to identify additional scenarios.</p></section>
 </main><footer class="foot"><div class="wrap">© 2026 QAFlex Studio · <a href="index.html">Home</a> · Review generated cases before use.</div></footer>
 <script src="qa-tool.js" defer></script>
+
+<a class="back-to-top" href="#top" aria-label="Back to top" title="Back to top"><span aria-hidden="true">↑</span></a>
+<style>
+.back-to-top{position:fixed;right:22px;bottom:22px;z-index:9999;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#16a6a1;color:#062323;text-decoration:none;box-shadow:0 5px 18px rgba(0,0,0,.2);font:700 27px/1 system-ui,sans-serif;opacity:.94;transition:transform .2s ease,opacity .2s ease}
+.back-to-top:hover,.back-to-top:focus-visible{transform:translateY(-3px);opacity:1;outline:3px solid #0d1726;outline-offset:3px}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.back-to-top{transition:none}}
+</style>
 </body></html>
