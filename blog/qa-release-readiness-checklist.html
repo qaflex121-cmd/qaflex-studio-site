@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0d1726">
+<link rel="stylesheet" href="/blog/blog.css">
+<title>A Practical QA Release Readiness Checklist | QAFlex Studio</title>
+<meta name="description" content="A practical QA release readiness process covering scope, risk-based regression, integrations, defects, evidence, and residual risk.">
+<link rel="canonical" href="https://qaflex-studio-site.pages.dev/blog/qa-release-readiness-checklist.html">
+<meta property="og:type" content="article"><meta property="og:title" content="A Practical QA Release Readiness Checklist"><meta property="og:description" content="Make release recommendations using test evidence, risk, defects, and operational readiness."><meta property="og:url" content="https://qaflex-studio-site.pages.dev/blog/qa-release-readiness-checklist.html">
+</head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="/">QA<span>FLEX</span> STUDIO</a><nav class="nav-links"><a href="/blog/">Blog</a><a href="/tools.html">Free QA Tools</a><a href="/#free-resources">Checklists</a></nav></div></header>
+<section class="hero"><div class="wrap"><div class="eyebrow">Release strategy</div><h1>A Practical QA Release Readiness Checklist</h1><p>Make a clear recommendation by connecting test evidence to risk, defects, and the impact of the change.</p><p class="meta">QAFlex Studio · Quality strategy · 6-minute read</p></div></section>
+<main class="section"><div class="wrap"><article class="article">
+<p>Release readiness is not simply a test-pass percentage. A useful decision considers what changed, which user journeys are at risk, what evidence exists, which defects remain, and whether the team understands the risk of shipping.</p>
+<h2>1. Confirm scope and acceptance criteria</h2><p>Review the release scope, linked changes, acceptance criteria, configuration changes, migrations, and dependencies. Identify areas affected directly and indirectly. Resolve unclear acceptance criteria before treating test results as conclusive.</p>
+<h2>2. Prioritize regression by risk</h2><p>Start with critical business journeys, security-sensitive paths, integrations, data changes, and components with a history of defects. Include targeted tests for changed behaviour and a broader regression set based on release impact.</p><ul><li>Critical user journeys and core workflows.</li><li>Authentication, permissions, and data access.</li><li>API contracts and external integrations.</li><li>Browser, device, or environment coverage required by the product.</li><li>Migration, backward compatibility, and recovery scenarios where relevant.</li></ul>
+<h2>3. Review test execution evidence</h2><p>Record which suites ran, on which build and environment, and whether the results are reliable. Investigate failed, skipped, blocked, or flaky tests. A green summary is useful only when the underlying evidence is trustworthy and the tested build matches the release candidate.</p>
+<h2>4. Evaluate open defects transparently</h2><p>Review unresolved defects by severity, likelihood, user impact, workaround, and affected area. Make ownership and follow-up clear. Do not hide a high-impact issue inside a large count of low-severity defects.</p>
+<h2>5. Check operational readiness</h2><p>As appropriate for the system, confirm deployment steps, configuration, monitoring, alerting, backup or rollback plans, support ownership, and communication. Validate migrations and dependency compatibility in a representative environment.</p>
+<h2>6. Record residual risk and the decision</h2><p>Summarize what was tested, what was not tested, key results, open defects, known limitations, and the remaining risk. The release decision should be made by the appropriate accountable stakeholders, with QA providing clear evidence and a recommendation.</p>
+<h2>Release readiness review</h2><ul><li>Scope and acceptance criteria are understood.</li><li>Risk-based regression is complete or exceptions are documented.</li><li>Critical defects are resolved or explicitly accepted by the accountable owner.</li><li>Failed, skipped, and flaky tests have been assessed.</li><li>Integrations, configuration, and migrations have appropriate coverage.</li><li>Deployment, monitoring, support, and rollback plans are ready where required.</li><li>Evidence and residual risks are recorded.</li><li>The release decision and ownership are documented.</li></ul>
+<div class="callout"><strong>Download the checklist</strong><p>Use the <a href="/resources/qaflex-release-readiness-checklist.pdf">Release Readiness Checklist</a> to structure your next release review.</p></div>
+<p><a href="/blog/">Back to the QAFlex Studio Blog</a></p>
+</article></div></main><footer class="footer"><div class="wrap">© 2026 QAFlex Studio · <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></div></footer></body></html>
