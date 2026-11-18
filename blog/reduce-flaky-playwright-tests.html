@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0d1726">
+<link rel="stylesheet" href="/blog/blog.css">
+<title>How to Reduce Flaky Playwright Tests | QAFlex Studio</title>
+<meta name="description" content="Learn a practical method for diagnosing flaky Playwright tests, improving locators, waiting for application states, isolating data, and using traces.">
+<link rel="canonical" href="https://qaflex-studio-site.pages.dev/blog/reduce-flaky-playwright-tests.html">
+<meta property="og:type" content="article"><meta property="og:title" content="How to Reduce Flaky Playwright Tests"><meta property="og:description" content="A repeatable troubleshooting process for more reliable Playwright automation."><meta property="og:url" content="https://qaflex-studio-site.pages.dev/blog/reduce-flaky-playwright-tests.html">
+</head><body><header class="site-header"><div class="wrap nav"><a class="brand" href="/">QA<span>FLEX</span> STUDIO</a><nav class="nav-links"><a href="/blog/">Blog</a><a href="/tools.html">Free QA Tools</a><a href="/#free-resources">Checklists</a></nav></div></header>
+<section class="hero"><div class="wrap"><div class="eyebrow">Playwright reliability</div><h1>How to Reduce Flaky Playwright Tests</h1><p>Use evidence to find the reason a test is intermittent before adding retries or longer timeouts.</p><p class="meta">QAFlex Studio · Automation engineering · 7-minute read</p></div></section>
+<main class="section"><div class="wrap"><article class="article">
+<p>A flaky test passes and fails without a relevant product change. It creates noise in CI, reduces confidence in regression results, and costs engineers time. The goal is not simply to make the test pass once; it is to identify and remove the unstable assumption.</p>
+<h2>1. Classify the failure before changing the test</h2><p>Start with the error, trace, screenshot, browser console, and network activity. Put the failure into a likely category:</p><ul><li><strong>Locator instability:</strong> the selector matches multiple elements, depends on layout, or targets an implementation detail.</li><li><strong>Timing assumption:</strong> the test acts before the application reaches the expected state.</li><li><strong>Shared state:</strong> another test or an earlier run changes data the test depends on.</li><li><strong>Environment dependency:</strong> a service, browser, network request, or test account behaves inconsistently.</li><li><strong>Product defect:</strong> the application itself has a race condition or intermittent failure.</li></ul>
+<h2>2. Prefer locators tied to user intent</h2><p>Use accessible roles and names, labels, or a deliberate test ID. Avoid brittle selectors based on deep DOM structure or styling classes that change frequently.</p><pre><code>const saveButton = page.getByRole('button', { name: 'Save changes' });
+await saveButton.click();
+await expect(page.getByText('Changes saved')).toBeVisible();</code></pre><p>Make the locator unique and assert an outcome that matters to the user. If a page contains repeated controls, scope the locator to the relevant dialog, row, or section.</p>
+<h2>3. Wait for a meaningful application state</h2><p>Fixed sleeps often make tests slower without making them reliable. Instead, wait for a visible state, a specific response, or a condition that indicates the workflow is ready. Use Playwright's auto-waiting and web-first assertions where they fit.</p><pre><code>await expect(page.getByRole('heading', { name: 'Release details' })).toBeVisible();
+await expect(page.getByRole('button', { name: 'Publish' })).toBeEnabled();</code></pre><p>Do not treat network-idle as a universal readiness signal: applications with polling, analytics, or persistent connections may never become idle.</p>
+<h2>4. Isolate test data and state</h2><p>Each test should establish the data it needs and clean up where appropriate. Avoid relying on execution order, shared mutable accounts, or records left by a previous run. Use unique test data when parallel workers could collide, and make setup repeatable.</p>
+<h2>5. Use traces to understand intermittent failures</h2><p>When a failure occurs in CI, retain a trace and relevant screenshots or logs. Review the action timeline, DOM snapshots, console output, and network activity. Compare a passing run with a failing run instead of guessing at the cause.</p>
+<h2>6. Treat retries as diagnostics, not a fix</h2><p>Retries can help reveal whether a failure is intermittent, but a test that passes only on retry still deserves investigation. Track flaky-test frequency and remove or quarantine a test only under a clear team policy.</p>
+<h2>Practical investigation checklist</h2><ul><li>Reproduce the failure locally or in a controlled CI run.</li><li>Identify the first incorrect state, not only the final timeout.</li><li>Check locator uniqueness and application readiness.</li><li>Confirm test data and account state are isolated.</li><li>Review traces, screenshots, console messages, and failed requests.</li><li>Run the corrected test repeatedly and in parallel when applicable.</li><li>Document the root cause and add coverage for the underlying defect if needed.</li></ul>
+<div class="callout"><strong>Next step</strong><p>Use the <a href="/resources/qaflex-playwright-reliability-checklist.pdf">Playwright Reliability Checklist</a> to review your suite, then record the root cause of each recurring failure.</p></div>
+<p class="muted">Examples are starting points. Adapt locators, assertions, test data, and timeouts to the application's actual behaviour and supported Playwright version.</p>
+<p><a href="/blog/">Back to the QAFlex Studio Blog</a></p>
+</article></div></main><footer class="footer"><div class="wrap">© 2026 QAFlex Studio · <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></div></footer></body></html>
