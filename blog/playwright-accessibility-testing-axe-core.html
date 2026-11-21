@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0d1726">
+<link rel="stylesheet" href="/blog/blog.css">
+<title>Practical Accessibility Testing with Playwright and axe-core | QAFlex Studio</title>
+<meta name="description" content="Add automated accessibility checks to Playwright with axe-core, test key page states, triage violations, and build a realistic CI strategy.">
+<link rel="canonical" href="https://qaflex-studio-site.pages.dev/blog/playwright-accessibility-testing-axe-core.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Practical Accessibility Testing with Playwright and axe-core">
+<meta property="og:description" content="A practical guide to reliable accessibility scans, issue triage, and CI coverage.">
+<meta property="og:url" content="https://qaflex-studio-site.pages.dev/blog/playwright-accessibility-testing-axe-core.html">
+</head>
+<body>
+<header class="site-header"><div class="wrap nav"><a class="brand" href="/">QA<span>FLEX</span> STUDIO</a><nav class="nav-links" aria-label="Main navigation"><a href="/blog/">Blog</a><a href="/tools.html">Free QA Tools</a><a href="/#free-resources">Checklists</a></nav></div></header>
+<section class="hero"><div class="wrap"><div class="eyebrow">Accessibility testing</div><h1>Practical Accessibility Testing with Playwright and axe-core</h1><p>Turn automated accessibility scans into actionable regression checks without confusing a clean scan with full accessibility.</p><p class="meta">QAFlex Studio · 21 November 2026 · 9-minute read</p></div></section>
+<main class="section"><div class="wrap"><article class="article">
+<p>Accessibility testing is most useful when it checks the states people actually encounter: an initial page, a validation error, a modal dialog, a filtered result list, and a completed workflow. Automated rules can catch many programmatically detectable issues, but they cannot determine whether every interaction is usable with a keyboard or assistive technology. A good strategy combines repeatable scans with deliberate manual checks.</p>
+<h2>1. Choose meaningful user journeys</h2>
+<p>Begin with a small set of high-impact experiences rather than scanning every URL indiscriminately. Include sign-in, navigation, forms, search, data tables, and any complex component your product relies on. For each journey, identify the states that change accessibility behaviour.</p>
+<ul><li><strong>Initial render:</strong> landmarks, headings, labels, and document structure.</li><li><strong>Interaction state:</strong> menus, dialogs, accordions, and dynamic results.</li><li><strong>Error state:</strong> required-field errors, invalid inputs, and error summaries.</li><li><strong>Responsive state:</strong> narrow layouts and zoom, where applicable.</li></ul>
+<p>Use a risk-based approach: prioritize components used across many pages, flows required to complete essential tasks, and areas with known accessibility defects.</p>
+<h2>2. Install the Playwright integration</h2>
+<p>In an existing Playwright Test project, install the axe-core integration as a development dependency:</p>
+<pre><code>npm install --save-dev @axe-core/playwright</code></pre>
+<p>The following example uses Playwright Test and <code>@axe-core/playwright</code>. It assumes the application is available at a configured <code>baseURL</code>.</p>
+<pre><code>import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('sign-in page has no detected WCAG A/AA violations', async ({ page }) =&gt; {
+  await page.goto('/login');
+  await expect(page.getByRole('heading', { name: 'Sign in' }))
+    .toBeVisible();
+
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+
+  expect(results.violations).toEqual([]);
+});</code></pre>
+<p>The tags select the rules associated with those WCAG conformance levels in the installed axe-core version. They are not a guarantee of WCAG conformance. Pin dependency versions through your lockfile and review rule changes during upgrades.</p>
+<h2>3. Scan after the UI reaches the intended state</h2>
+<p>A scan performed before a dialog opens cannot detect problems inside that dialog. Trigger the interaction, assert that the intended state is visible, and then analyze the page.</p>
+<pre><code>test('account dialog accessibility', async ({ page }) =&gt; {
+  await page.goto('/settings');
+  await page.getByRole('button', { name: 'Edit profile' }).click();
+
+  const dialog = page.getByRole('dialog', { name: 'Edit profile' });
+  await expect(dialog).toBeVisible();
+
+  const results = await new AxeBuilder({ page })
+    .include('[role="dialog"]')
+    .analyze();
+
+  expect(results.violations).toEqual([]);
+});</code></pre>
+<p>This example scopes analysis to the dialog. Use a full-page scan as well when you need to assess relationships with surrounding content, such as whether background elements remain accessible while a modal is open. Scoping can reduce noise but can also miss issues outside the selected subtree.</p>
+<h2>4. Make failures diagnosable</h2>
+<p>A raw assertion failure may hide the affected nodes. During triage, record each rule identifier, impact, help URL, and the failing node's target. Keep logs free of sensitive form values and user data.</p>
+<pre><code>const results = await new AxeBuilder({ page }).analyze();
+
+const summary = results.violations.map(v =&gt; ({
+  rule: v.id,
+  impact: v.impact,
+  help: v.helpUrl,
+  targets: v.nodes.map(node =&gt; node.target)
+}));
+
+console.log(JSON.stringify(summary, null, 2));
+expect(results.violations).toEqual([]);</code></pre>
+<p>For each finding, reproduce it, inspect the relevant markup, and determine whether the underlying issue belongs in a shared component or an individual page. Capture a minimal reproduction and the expected accessible behaviour in the defect report.</p>
+<h2>5. Handle existing violations without hiding new ones</h2>
+<p>Legacy applications may already have a backlog. Avoid permanently disabling entire rule families just to make CI green. Instead, record known issues with owners and deadlines, fix shared-component defects first, and maintain a clearly reviewed baseline. Any exclusion should be narrow, documented, and revisited. A baseline is a temporary management tool, not evidence that the product is accessible.</p>
+<p>Do not use an exclusion to suppress a serious defect in a critical journey. Where you must exclude a third-party widget you cannot modify, document the vendor dependency and verify the surrounding flow manually.</p>
+<h2>6. Run accessibility checks at the right CI stage</h2>
+<p>Start with a fast smoke set for essential journeys on pull requests. Run a broader set for important states on a scheduled or release pipeline. Publish useful failure evidence, but avoid printing secrets or storing sensitive page content in artifacts. If your CI runs in parallel, isolate test accounts and data as you would for other Playwright tests.</p>
+<p>Track meaningful measures: number of new violations, age of known violations, critical journeys covered, and recurring component-level defects. A count of passing scans alone does not measure accessibility quality.</p>
+<h2>7. Add manual testing that automation cannot replace</h2>
+<ul><li>Complete core journeys using only the keyboard; inspect focus order and visible focus indicators.</li><li>Check that focus moves into dialogs and returns sensibly when they close.</li><li>Use a screen reader to confirm names, roles, instructions, and status announcements are understandable.</li><li>Review text alternatives for meaning, not just presence.</li><li>Check zoom, reflow, error recovery, and content clarity.</li><li>Include people with disabilities in usability evaluation when possible.</li></ul>
+<p>Automated scans can identify some violations; manual and assistive-technology testing are necessary to evaluate the experience beyond the rules that tools can detect.</p>
+<h2>Implementation checklist</h2>
+<ul><li>Select critical journeys and their interactive states.</li><li>Install and lock compatible Playwright and axe-core packages.</li><li>Wait for a meaningful UI state before each scan.</li><li>Keep page-wide coverage alongside targeted component scans.</li><li>Attach rule IDs and affected targets to defect reports.</li><li>Review exclusions and known-issue baselines regularly.</li><li>Combine CI scans with keyboard, screen-reader, and zoom testing.</li></ul>
+<div class="callout"><strong>Related QAFlex Studio resources</strong><p>Use the <a href="/resources/qaflex-playwright-reliability-checklist.pdf">free Playwright Reliability Checklist (PDF)</a> to improve test stability and the <a href="/resources/qaflex-release-readiness-checklist.pdf">free Release Readiness Checklist (PDF)</a> to include accessibility risk in release decisions.</p></div>
+<h2>Further reading</h2>
+<p>For complementary techniques, see <a href="/blog/reduce-flaky-playwright-tests.html">How to Reduce Flaky Playwright Tests</a> and <a href="/blog/qa-release-readiness-checklist.html">A Practical QA Release Readiness Checklist</a>. The official <a href="https://playwright.dev/docs/accessibility-testing">Playwright accessibility testing guide</a> and <a href="https://www.deque.com/axe/core-documentation/api-documentation/">axe-core API documentation</a> provide additional implementation details.</p>
+<p class="muted">Examples are illustrative. Adjust routes, accessible names, rules, and assertions to your application and installed library versions. A passing automated scan does not certify accessibility or WCAG compliance.</p>
+<p><a href="/blog/">Back to the QAFlex Studio Blog</a></p>
+</article></div></main>
+<footer class="footer"><div class="wrap">© 2026 QAFlex Studio · <a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Contact</a></div></footer>
+</body></html>
